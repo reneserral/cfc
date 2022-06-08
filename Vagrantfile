@@ -13,7 +13,7 @@ Vagrant.configure("2") do |config|
     end
     nftables.vm.box = "debian/bullseye64"
     nftables.vm.hostname = "nftables"
-    nftables.vm.network :private_network, ip: "192.168.38.11"
+    # nftables.vm.network :private_network, ip: "192.168.38.11"
     nftables.vm.provision "shell", inline: <<-SHELL
       apt update
       apt upgrade -y
@@ -21,10 +21,10 @@ Vagrant.configure("2") do |config|
       curl -s https://packages.wazuh.com/key/GPG-KEY-WAZUH | apt-key add -
       echo "deb https://packages.wazuh.com/4.x/apt/ stable main" | tee -a /etc/apt/sources.list.d/wazuh.list
       apt-get update
-      WAZUH_MANAGER="192.168.38.10" apt-get install wazuh-agent
+      # WAZUH_MANAGER="192.168.38.10" apt-get install wazuh-agent
       systemctl daemon-reload
-      systemctl enable wazuh-agent
-      systemctl start wazuh-agent
+      # systemctl enable wazuh-agent
+      # systemctl start wazuh-agent
       echo "<html><head><title>${HOSTNAME}</title></head>" \
            "<body><h1>${HOSTNAME}</h1>" \
            "<p>This is the default web page for ${HOSTNAME}.</p>" \
@@ -39,7 +39,7 @@ Vagrant.configure("2") do |config|
     end
     web_extra.vm.box = "debian/bullseye64"
     web_extra.vm.hostname = "webextra"
-    web_extra.vm.network :private_network, ip: "192.168.38.14"
+    # web_extra.vm.network :private_network, ip: "192.168.38.14"
     web_extra.vm.provision "shell", inline: <<-SHELL
       apt update
       apt upgrade -y
@@ -47,10 +47,10 @@ Vagrant.configure("2") do |config|
       curl -s https://packages.wazuh.com/key/GPG-KEY-WAZUH | apt-key add -
       echo "deb https://packages.wazuh.com/4.x/apt/ stable main" | tee -a /etc/apt/sources.list.d/wazuh.list
       apt-get update
-      WAZUH_MANAGER="192.168.38.10" apt-get install wazuh-agent
+      # WAZUH_MANAGER="192.168.38.10" apt-get install wazuh-agent
       systemctl daemon-reload
-      systemctl enable wazuh-agent
-      systemctl start wazuh-agent
+      # systemctl enable wazuh-agent
+      # systemctl start wazuh-agent
       echo "<html><head><title>${HOSTNAME}</title></head>" \
            "<body><h1>${HOSTNAME}</h1>" \
            "<p>This is the default web page for ${HOSTNAME}.</p>" \
@@ -66,7 +66,7 @@ Vagrant.configure("2") do |config|
     end
     image_server.vm.box = "debian/bullseye64"
     image_server.vm.hostname = "imageserver"
-    image_server.vm.network :private_network, ip: "192.168.38.12"
+    # image_server.vm.network :private_network, ip: "192.168.38.12"
     image_server.vm.provision "shell", inline: <<-SHELL
       apt update
       apt upgrade -y
@@ -74,10 +74,10 @@ Vagrant.configure("2") do |config|
       curl -s https://packages.wazuh.com/key/GPG-KEY-WAZUH | apt-key add -
       echo "deb https://packages.wazuh.com/4.x/apt/ stable main" | tee -a /etc/apt/sources.list.d/wazuh.list
       apt-get update
-      WAZUH_MANAGER="192.168.38.10" apt-get install wazuh-agent
+      # WAZUH_MANAGER="192.168.38.10" apt-get install wazuh-agent
       systemctl daemon-reload
-      systemctl enable wazuh-agent
-      systemctl start wazuh-agent
+      # systemctl enable wazuh-agent
+      # systemctl start wazuh-agent
       mkdir /var/www/html/images
       wget https://github.com/reneserral/cfc/raw/main/haproxy/keyboard.gif -O/var/www/html/images/image1.gif
       SHELL
@@ -89,7 +89,7 @@ Vagrant.configure("2") do |config|
     end
     haproxy.vm.box = "debian/bullseye64"
     haproxy.vm.hostname = "haproxy"
-    haproxy.vm.network :private_network, ip: "192.168.38.13"
+    # haproxy.vm.network :private_network, ip: "192.168.38.13"
     haproxy.vm.network :forwarded_port, guest: 80, host: 8081
     haproxy.vm.network :forwarded_port, guest: 8080, host: 8080
     haproxy.vm.network :forwarded_port, guest: 443, host: 8082
@@ -101,10 +101,10 @@ Vagrant.configure("2") do |config|
       curl -s https://packages.wazuh.com/key/GPG-KEY-WAZUH | apt-key add -
       echo "deb https://packages.wazuh.com/4.x/apt/ stable main" | tee -a /etc/apt/sources.list.d/wazuh.list
       apt-get update
-      WAZUH_MANAGER="192.168.38.10" apt-get install wazuh-agent
+      # WAZUH_MANAGER="192.168.38.10" apt-get install wazuh-agent
       systemctl daemon-reload
-      systemctl enable wazuh-agent
-      systemctl start wazuh-agent
+      # systemctl enable wazuh-agent
+      # systemctl start wazuh-agent
       SHELL
   end
 
@@ -119,7 +119,7 @@ Vagrant.configure("2") do |config|
     end
 
     wazuh.vm.hostname = "wazuh"
-    wazuh.vm.network :private_network, ip: "192.168.38.10"
+    # wazuh.vm.network :private_network, ip: "192.168.38.10"
     wazuh.vm.box = "uahccre/wazuh-manager"
   end
 end
