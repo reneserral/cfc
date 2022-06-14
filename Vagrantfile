@@ -122,5 +122,27 @@ Vagrant.configure("2") do |config|
     wazuh.vm.network :private_network, ip: "192.168.56.10"
     wazuh.vm.box = "uahccre/wazuh-manager"
   end
+
+  config.vm.define :windows10 do |windows10|
+    windows10.vm.provider :virtualbox do |vb|
+      vb.customize ['modifyvm', :id, '--usb', 'on']
+      vb.customize ["modifyvm", :id, "--usbehci", "on"]
+      vb.customize ["modifyvm", :id, "--memory", "2048", "--cpus", "2"]
+    end
+    windows10.vm.hostname = "windows10"
+    windows10.vm.network :private_network, ip: "192.168.56.21"
+    windows10.vm.box = "peru/windows-10-enterprise-x64-eval"
+    windows10.vm.provision "shell", path: "https://raw.githubusercontent.com/rene-serral/monitoring-course/main/Modulo-2/Configure-base.bat"
+  end
+  config.vm.define :windows2022 do |windows2022|
+    windows2022.vm.provider :virtualbox do |vb|
+      vb.customize ["modifyvm", :id, "--memory", "2048", "--cpus", "2"]
+    end
+    windows2022.vm.hostname = "windows"
+    windows2022.vm.network :private_network, ip: "192.168.56.20"
+    windows2022.vm.box = "peru/windows-server-2022-standard-x64-eval"
+    windows2022.vm.box_version = "20210907.01"
+    windows2022.vm.provision "shell", path: "https://raw.githubusercontent.com/rene-serral/monitoring-course/main/Modulo-2/Configure-base.bat"
+  end
 end
 
