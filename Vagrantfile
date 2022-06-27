@@ -83,6 +83,22 @@ Vagrant.configure("2") do |config|
       SHELL
   end
 
+  config.vm.define :john, primary: true do |john|
+    john.vm.provider :virtualbox do |vb|
+      vb.customize ["modifyvm", :id, "--memory", "1024", "--cpus", "1"]
+    end
+    john.vm.box = "debian/bullseye64"
+    john.vm.hostname = "john"
+    john.vm.network :private_network, ip: "192.168.56.12"
+    john.vm.provision "shell", inline: <<-SHELL
+      apt update
+      apt upgrade -y
+      apt install -qy git systemd-timesyncd curl gnupg2 nginx
+      echo Installing John The Ripper 1.9.0 Jumbo Bleeding Edge
+      wget 'https://github.com/reneserral/cfc/blob/main/john/john-1.9.0-jumbo-1+bleeding.tar.bz2?raw=true' -q -O - | sudo tar -C / -xjf -
+      SHELL
+  end
+
   config.vm.define :haproxy, primary: true do |haproxy|
     haproxy.vm.provider :virtualbox do |vb|
       vb.customize ["modifyvm", :id, "--memory", "1024", "--cpus", "1"]
