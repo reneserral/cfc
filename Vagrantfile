@@ -9,11 +9,12 @@ Vagrant.configure("2") do |config|
 
   config.vm.define :nftables, primary: true do |nftables|
     nftables.vm.provider :virtualbox do |vb|
-      vb.customize ["modifyvm", :id, "--memory", "1024", "--cpus", "1"]
+      vb.customize ["modifyvm", :id, "--memory", "4096", "--cpus", "2"]
     end
     nftables.vm.box = "debian/bullseye64"
     nftables.vm.hostname = "nftables"
     nftables.vm.network :private_network, ip: "192.168.56.11"
+    #nftables.vm.network :forwarded_port, guest: 8080, host: 8080
     nftables.vm.provision "shell", inline: <<-SHELL
       apt update
       apt upgrade -y
@@ -160,5 +161,22 @@ Vagrant.configure("2") do |config|
     windows2022.vm.box_version = "20210907.01"
     windows2022.vm.provision "shell", path: "https://raw.githubusercontent.com/rene-serral/monitoring-course/main/Modulo-2/Configure-base.bat"
   end
+
+  config.vm.define :kali, primary: true do |kali|
+    kali.vm.provider :virtualbox do |vb|
+      vb.customize ["modifyvm", :id, "--memory", "2048", "--cpus", "2"]
+    end
+    kali.vm.box = "kalilinux/rolling"
+    kali.vm.hostname = "kali"
+    kali.vm.network :private_network, ip: "192.168.56.15"
+    kali.vm.provision "shell", inline: <<-SHELL
+      useradd kali -m -p $(openssl passwd -6 kali123)
+      apt update
+      apt upgrade -y
+      apt install -qy git systemd-timesyncd curl gnupg2
+      setxkbmap -layout es
+    SHELL
+  end
+
 end
 
